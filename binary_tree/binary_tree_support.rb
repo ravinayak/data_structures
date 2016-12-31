@@ -12,9 +12,6 @@ module BinaryTree
     # All methods in the module declared as private
     #
     private
-    # Private Methods
-    #
-    private
 
     # Prints Nodes of a tree level wise
     # @param node [Node]
