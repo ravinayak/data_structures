@@ -1,4 +1,4 @@
-require_relative '../stack/stack'
+require_relative '../binary_tree/binary_tree_support'
 
 # Used for namespacing
 #
@@ -6,6 +6,9 @@ module BinaryTree
   # Class definition
   #
   class BinaryTree
+    # Include module
+    #
+    include BinaryTreeSupport
 
     # Attribute Accessors
     #
@@ -13,7 +16,7 @@ module BinaryTree
 
     # Initialize node
     #
-    def initialize(root)
+    def initialize(root = nil)
       @root = root
     end
 

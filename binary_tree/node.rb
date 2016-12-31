@@ -6,7 +6,7 @@ module BinaryTree
   class Node
     # Attribute Accessors
     #
-    attr_accessor :left_node, :right, :parent, :value
+    attr_accessor :left, :right, :parent, :value
 
     # Initialize node
     #

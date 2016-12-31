@@ -1,3 +1,5 @@
+require_relative '../stack/stack'
+require_relative '../binary_tree/node'
 # Used for namespacing
 #
 module BinaryTree
@@ -19,13 +21,14 @@ module BinaryTree
     #
     def display_support(node)
       print EMPTY_TREE_MSG and return if node.nil?
-      stack = Stack.new
+      stack = Stack::Stack.new
       stack.push(node)
       begin
         node = stack.pop
         print_val_new_line(node)
         push_node_on_stack(node, stack) unless node == NEW_LEVEL_QUALIFIER
       end until stack.empty?
+      nil
     end
 
     # Push On stack depending upon node's left and right pointers
@@ -35,8 +38,8 @@ module BinaryTree
     #
     def push_node_on_stack(node, stack)
       return if node.nil? || (node.left.nil? && node.right.nil?)
-      stack.push(node.left) unless node.left.nil?
-      stack.push(node.right) unless  node.right.nil?
+      stack.push(node.right) unless node.right.nil?
+      stack.push(node.left) unless  node.left.nil?
       stack.push(NEW_LEVEL_QUALIFIER)
     end
 
@@ -46,8 +49,8 @@ module BinaryTree
     #
     def print_val_new_line(node_or_val)
       return if node_or_val.nil?
-      puts and return if node_or_val.is_a?(String) && node_or_val == NEW_LEVEL_QUALIFIER
-      print node_or_val.value + '  '
+      return puts if node_or_val.is_a?(String) && node_or_val == NEW_LEVEL_QUALIFIER
+      print node_or_val.value.to_s + '  '
     end
 
     # Calculates the in-order successor of a given node in a BST
