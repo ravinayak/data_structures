@@ -20,7 +20,7 @@ module Stack
     # @return [NIL]
     #
     def push(value)
-      self.arr << value
+      self.arr[self.curr] = value
       self.curr += 1
     end
 
