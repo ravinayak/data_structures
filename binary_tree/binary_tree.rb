@@ -88,7 +88,7 @@ module BinaryTree
     # @return [Node]
     #
     def prep_node(val)
-      node = BinaryTree::Node.new
+      node = Node.new
       node.value = val
       node
     end
