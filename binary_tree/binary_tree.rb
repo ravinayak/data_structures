@@ -21,59 +21,59 @@ module BinaryTree
     end
 
     # Add a node
-    # @param node [Node]
+    # @param value [String]
     # @return [Node]
     #
-    def add_node(node)
-      insert_node(node)
+    def add_node(value)
+      insert_node(prep_node(value))
     end
 
     # Delete a node
-    # @param node [Node]
+    # @param value [String]
     # @return [Node]
     #
-    def delete_node(node)
-      delete_node_support(node)
+    def delete_node(value)
+      delete_node_support(prep_node(value))
     end
 
     # Returns Tree Minimum
-    # @param node [Node]
+    # @param value [String]
     # @return [Node]
     #
-    def tree_minimum(node)
-      tree_minimum_support(node)
+    def tree_minimum(value)
+      tree_minimum_support(prep_node(value))
     end
 
     # Returns Tree Minimum
-    # @param node [Node]
+    # @param value [String]
     # @return [Node]
     #
-    def tree_maximum(node)
-      tree_maximum_support(node)
+    def tree_maximum(value)
+      tree_maximum_support(prep_node(value))
     end
 
-    # Search a node
-    # @param node [Node]
+    # Search a value
+    # @param value [String]
     # @param method_type [Symbol]
     # @return [Node]
     #
-    def search(node, method_type)
+    def search(value, method_type = :iterative)
       case method_type
       when :recursive
-        return recursive_search(node, self.root)
+        return recursive_search(prep_node(value), self.root)
       when :iterative
-        return iterative_search(node)
+        return iterative_search(prep_node(value))
       else
         return nil
       end
     end
 
-    # Compute in-order successor of a node
-    # @param node [Node]
+    # Compute in-order successor of a value
+    # @param value [String]
     # @return [Node]
     #
-    def in_order_successor(node)
-      prep_in_order_successor(node)
+    def in_order_successor(value)
+      prep_in_order_successor(prep_node(value))
     end
 
     # Displays nodes of a tree level wise
@@ -81,6 +81,16 @@ module BinaryTree
     #
     def display
       display_support(self.root)
+    end
+
+    # Prepares node from a given value
+    # @param val [String]
+    # @return [Node]
+    #
+    def prep_node(val)
+      node = BinaryTree::Node.new
+      node.value = val
+      node
     end
   end
 end
