@@ -200,5 +200,15 @@ module BinaryTree
       end
       x
     end
+
+    # Determines if input is a node or value and returns after searching in
+    # BST for given value
+    # @param node_or_value [Object]
+    # @return [Node]
+    #
+    def prep_node_for_input(node_or_value)
+      return node_or_value if node_or_value.is_a?(Node)
+      search(node_or_value)
+    end
   end
 end

@@ -33,15 +33,19 @@ module BinaryTree
     # @return [Node]
     #
     def delete_node(value)
-      delete_node_support(prep_node(value))
+      node = search(value)
+      return nil if node.nil?
+      delete_node_support(node)
     end
 
     # Returns Tree Minimum
-    # @param value [String]
+    # @param node_or_value [Object]
     # @return [Node]
     #
-    def tree_minimum(value)
-      tree_minimum_support(prep_node(value))
+    def tree_minimum(node_or_value)
+      node = prep_node_for_input(node_or_value)
+      return nil if node.nil?
+      tree_minimum_support(node)
     end
 
     # Returns Tree Minimum
@@ -49,7 +53,9 @@ module BinaryTree
     # @return [Node]
     #
     def tree_maximum(value)
-      tree_maximum_support(prep_node(value))
+      node = search(value)
+      return nil if node.nil?
+      tree_maximum_support(node)
     end
 
     # Search a value
@@ -73,7 +79,9 @@ module BinaryTree
     # @return [Node]
     #
     def in_order_successor(value)
-      prep_in_order_successor(prep_node(value))
+      node = search(value)
+      return nil if node.nil?
+      prep_in_order_successor(node)
     end
 
     # Displays nodes of a tree level wise
@@ -94,3 +102,18 @@ module BinaryTree
     end
   end
 end
+
+# To run and create binary tree
+#
+# require '<<directory location>>/binary_tree/binary_tree'
+# bt = BinaryTree::BinaryTree.new
+# [25, 18, 45, 13, 22, 35, 55, 9, 16, 20, 24, 30, 40, 50, 60, 1, 75].each do |val|
+#   bt.add_node(val)
+# end
+#
+# 25
+# 18							   45
+# 13				22     			 35	            55
+# 9           16      20      24       30       40      50      60
+# 1											                       75
+
