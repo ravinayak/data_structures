@@ -9,7 +9,6 @@ module BinaryTree
     # Constant to Hold Message
     #
     EMPTY_TREE_MSG = 'Binary Tree is empty'
-    NEW_LEVEL_QUALIFIER = '*'
 
     # All methods in the module declared as private
     #
@@ -20,13 +19,16 @@ module BinaryTree
     # @return [NIL]
     #
     def display_support(node)
-      print EMPTY_TREE_MSG and return if node.nil?
+      return print EMPTY_TREE_MSG if node.nil?
       stack = Stack::Stack.new
       stack.push(node)
       begin
-        node = stack.pop
-        print_val_new_line(node)
-        push_node_on_stack(node, stack) unless node == NEW_LEVEL_QUALIFIER
+        tmp_arr = []
+        begin
+          tmp_arr << stack.pop
+        end until stack.empty?
+        print_node_arr_line(tmp_arr)
+        tmp_arr.reverse.each { |x| push_node_on_stack(x, stack) }
       end until stack.empty?
       nil
     end
@@ -40,17 +42,16 @@ module BinaryTree
       return if node.nil? || (node.left.nil? && node.right.nil?)
       stack.push(node.right) unless node.right.nil?
       stack.push(node.left) unless  node.left.nil?
-      stack.push(NEW_LEVEL_QUALIFIER)
     end
 
     # Prints a new line or a node value by inspecting content popped
-    # @param node_or_val [Object]
+    # @param tmp_arr [Array]
     # @return [NIL]
     #
-    def print_val_new_line(node_or_val)
-      return if node_or_val.nil?
-      return puts if node_or_val.is_a?(String) && node_or_val == NEW_LEVEL_QUALIFIER
-      print node_or_val.value.to_s + '  '
+    def print_node_arr_line(tmp_arr)
+      return if tmp_arr.nil? || tmp_arr.empty?
+      tmp_arr.each { |x| print x.value.to_s + '   ' }
+      puts
     end
 
     # Calculates the in-order successor of a given node in a BST
