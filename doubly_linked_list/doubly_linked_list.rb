@@ -59,4 +59,11 @@ module DoublyLinkedList
       met_resp[:node]
     end
   end
+
+  # Code to create a list and add nodes to it
+  # Print list
+  #
+  # require '/Users/ravinayak/projects/data_structures/doubly_linked_list/doubly_linked_list'
+  # dt = DoublyLinkedList::DoublyLinkedList.new
+  # [89, 90, 14, 13, 15, 80, 45, 55, 65].each { |val| dt.add_node(val) }
 end
