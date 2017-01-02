@@ -9,7 +9,7 @@ module LinkedList
   class LinkedList
     # Include Module
     #
-    include LinkedList::LinkedListSupport
+    include LinkedListSupport
 
     # Attribute Accessor
     #
@@ -18,7 +18,7 @@ module LinkedList
     # Initialize
     #
     def initialize
-      @head = LinkedList::Node.new
+      @head = Node.new
     end
 
     # Public Interface

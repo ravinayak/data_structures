@@ -18,7 +18,7 @@ module LinkedList
     # @return [Node]
     #
     def add_node_support(value)
-      node = Node::Node.new(value)
+      node = Node.new(value)
       list_value_node = traverse
       raise INTERNAL_ERROR if list_value_node[:last_node].nil?
 
