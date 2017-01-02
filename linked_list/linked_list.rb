@@ -1,5 +1,5 @@
 require_relative '../linked_list/node'
-require_relative '../linked_list/linked_list_support'
+require_relative '../list_methods'
 
 # Used for namespacing
 #
@@ -9,7 +9,7 @@ module LinkedList
   class LinkedList
     # Include Module
     #
-    include LinkedListSupport
+    include ListMethods
 
     # Attribute Accessor
     #
@@ -28,7 +28,7 @@ module LinkedList
     # @return [Node]
     #
     def add_node(value)
-      add_node_support(value)
+      add_node_support(value, :linked_list)
     end
 
     # Remove a node
@@ -38,6 +38,7 @@ module LinkedList
     def remove_node(value)
       remove_node_support(value)
     end
+
     # Print list value
     # @return [String]
     #
@@ -52,6 +53,16 @@ module LinkedList
       traverse_support
     end
 
+    # Finds a node for given value
+    # @param value [String]
+    # @return [Node]
+    #
+    def find_node(value)
+      met_resp = find_node_support(value)
+      return nil if met_resp[:node].nil?
+
+      met_resp[:node]
+    end
     # Code to create a list and add nodes to it
     # Print list
     #
