@@ -1,11 +1,16 @@
 require_relative '../stack/stack'
 require_relative '../binary_tree/node'
+require_relative '../binary_tree/binary_tree_traversal'
 # Used for namespacing
 #
 module BinaryTree
   # Includes support methods for BinaryTree
   #
   module BinaryTreeSupport
+    # Includes modules
+    #
+    include BinaryTree::BinaryTreeTraversal
+
     # Constant to Hold Message
     #
     EMPTY_TREE_MSG = 'Binary Tree is empty'
