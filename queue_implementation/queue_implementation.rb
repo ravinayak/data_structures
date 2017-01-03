@@ -1,12 +1,13 @@
-require_relative '../queue/queue_support'
+require_relative '../queue_implementation/queue_support'
 
 # Used for namespacing
 #
-module Queue
+module QueueImplementation
   # Class definition
   #
-  class Queue
+  class QueueImplementation
     # Includes module
+    #
     include QueueSupport
 
     # Attribute Accessor
@@ -59,3 +60,12 @@ module Queue
     end
   end
 end
+
+# Code to create a queue and add nodes to it
+# Print Queue
+#
+# require '/Users/ravinayak/projects/data_structures/queue_implementation/queue_implementation'
+# queue = QueueImplementation::QueueImplementation.new
+# (1..1000).each { |val| queue.add_element(val) }
+# http://twomovies.net/full_movie/124/1355644/1/movie/#confirmed
+#
