@@ -71,8 +71,8 @@ module QueueImplementation
     #
     def prep_min_max
       diff = self.rear - self.front
-      case diff
 
+      case diff
       when 1..LENGTH
         min, max = self.front, self.rear
         return { min: min, max: max }
@@ -94,13 +94,10 @@ module QueueImplementation
     #
     def front_rear_equal?(empty_full_sym)
       case self.front
-
       when 0
         return rear_front_at_one_not_ext?(empty_full_sym)
-
       when LENGTH
         return rear_front_at_len?(empty_full_sym)
-
       else
         return rear_front_at_one_not_ext?(empty_full_sym)
       end
@@ -112,7 +109,6 @@ module QueueImplementation
     #
     def rear_front_at_one_not_ext?(empty_full_sym)
       case empty_full_sym
-
       when :empty
         return true if self.arr[self.front + 1].nil? || self.arr[self.front + 1] == EMPTY_CHAR
         return false
@@ -130,7 +126,6 @@ module QueueImplementation
     #
     def rear_front_at_len?(empty_full_sym)
       case empty_full_sym
-
       when :empty
         return true if self.arr[0].nil? || self.arr[0] == EMPTY_CHAR
         return false
