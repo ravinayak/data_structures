@@ -61,8 +61,17 @@ module QueueImplementation
       min, max = met_resp[:min], met_resp[:max]
       max_elem = max - 1
       (min..max_elem).each { |x| print self.arr[x].to_s + ' ' }
-      (0..(self.rear - 1)).each { |x| print self.arr[x].to_s + ' ' } if max == LENGTH && self.rear != LENGTH
+      (0..(self.rear - 1)).each { |x| print self.arr[x].to_s + ' ' } if print_from_start?(min, max)
       nil
+    end
+
+    # Prints remaining elements in Queue from start
+    # @param min [Integer]
+    # @param max [Integer]
+    # @return [TrueClass/FalseClass]
+    #
+    def print_from_start?(min, max)
+      max == LENGTH && min != 0 && !empty_support? && !(self.arr[0] == EMPTY_CHAR)
     end
 
     # Determines min and max based on front and rear values to define
