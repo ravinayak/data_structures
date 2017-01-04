@@ -1,4 +1,5 @@
 require_relative '../binary_tree/binary_tree_support'
+require_relative '../binary_tree/binary_tree_problems'
 
 # Used for namespacing
 #
@@ -9,6 +10,7 @@ module BinaryTree
     # Include module
     #
     include BinaryTreeSupport
+    include BinaryTreeProblems
 
     # Attribute Accessors
     #
