@@ -4,6 +4,11 @@ module BinaryTree
   # Includes solutions for binary tree problems
   #
   module BinaryTreeProblems
+    # Constants to hold min and max values
+    #
+    FIXNUM_MAX = (2**(0.size * 8 -2) -1)
+    FIXNUM_MIN = -(2**(0.size * 8 -2))
+
     # Counts the number of nodes in the tree
     # @return [Integer]
     #
@@ -67,6 +72,23 @@ module BinaryTree
       node = ::BinaryTree::Node.new
       create_double_tree_support(self.root, node)
       display_support(node)
+    end
+
+    # Returns true if tree is same
+    # @param node [Node]
+    # @return [TrueClass/FalseClass]
+    #
+    def same_tree(node)
+      same_tree_support(self.root, node)
+    end
+
+    # Checks if a tree is a BST
+    # @return [TrueClass/FalseClass]
+    #
+    def is_bst
+      is_bst_bool_hash =  { is_bst_bool: true }
+      is_bst_support(self.root, FIXNUM_MIN, FIXNUM_MAX, is_bst_bool_hash)
+      print is_bst_bool_hash[:is_bst_bool]
     end
 
     # Private Methods
@@ -160,6 +182,50 @@ module BinaryTree
       double_tree_node.right = ::BinaryTree::Node.new unless original_node.right.nil?
       create_double_tree_support(original_node.left, node.left)
       create_double_tree_support(original_node.right, double_tree_node.right)
+    end
+
+    # Returns true if tree is same as given binary tree
+    # @param original_node [Node]
+    # @param second_node [Node]
+    # @return [TrueClass/FalseClass]
+    #
+    def same_tree_support(original_node, second_node)
+      return false if ((original_node.nil? && !second_node.nil?) || (!original_node.nil? && second_node.nil?))
+      return true if original_node.nil? && second_node.nil?
+      original_node.value == second_node.value &&
+          same_tree_support(original_node.right, second_node.right) &&
+          same_tree_support(original_node.left, second_node.left)
+    end
+
+    # Support method to check if a tree is a BST
+    # @param node [Node]
+    # @param min [Integer]
+    # @param max [Integer]
+    # @param is_bst_bool_hash [Hash]
+    # @return [TrueClass/FalseClass]
+    #
+    def is_bst_support(node, min, max, is_bst_bool_hash)
+      return true if node.nil?
+
+      is_bst_support(node.left, min, node.value, is_bst_bool_hash)
+      left_is_bst = valid_node_data?(node.left, min, node.value)
+
+      is_bst_support(node.right, node.value + 1, max, is_bst_bool_hash)
+      right_is_bst = valid_node_data?(node.right, node.value + 1, max)
+
+      is_bst_bool_hash[:is_bst_bool] = false unless left_is_bst && right_is_bst
+    end
+
+    # Determines boolean value based on range comparison
+    # @param node [Node]
+    # @param min_val [Integer]
+    # @param max_val [Integer]
+    # @return [TrueClass/FalseClass]
+    #
+    def valid_node_data?(node, min_val, max_val)
+      return true if node.nil?
+      return true if node.value > min_val && node.value < max_val
+      false
     end
   end
 end
