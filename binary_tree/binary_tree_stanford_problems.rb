@@ -3,7 +3,7 @@
 module BinaryTree
   # Includes solutions for binary tree problems
   #
-  module BinaryTreeProblems
+  module BinaryTreeStanfordProblems
     # Constants to hold min and max values
     #
     FIXNUM_MAX = (2**(0.size * 8 -2) -1)

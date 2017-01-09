@@ -10,7 +10,7 @@ module BinaryTree
     # Include module
     #
     include BinaryTreeSupport
-    include BinaryTreeProblems
+    include BinaryTreeStanfordProblems
 
     # Attribute Accessors
     #
