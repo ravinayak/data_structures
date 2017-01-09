@@ -11,31 +11,11 @@ module BinaryTree
       size_support(self.root)
     end
 
-    # Support method for determining size of a tree
-    # @param node [Node]
-    # @return [Integer]
-    #
-    def size_support(node)
-      return 0 if node.nil?
-      size_support(node.left) + 1 + size_support(node.right)
-    end
-
     # Returns maximum depth of a binary tree
     # @return [Integer]
     #
     def depth
       depth_support(self.root)
-    end
-
-    # Finds the maximum depth of a tree
-    # @param node [Node]
-    # @return [Integer]
-    #
-    def depth_support(node)
-      return 0 if node.nil?
-      l_depth = depth_support(node.left)
-      r_depth = depth_support(node.right)
-      [l_depth, r_depth].max + 1
     end
 
     # Returns true if there exists a path in the tree from root to leaf which
@@ -63,6 +43,36 @@ module BinaryTree
       puts '***********************************************************************'
     end
 
+    # Creates a new tree that mirrors the original tree
+    # @return [Node]
+    #
+    def create_mirror_tree
+      node = ::BinaryTree::Node.new
+      create_mirror_tree_support(self.root, node)
+      display_support(node)
+    end
+
+    # Mirrors the original tree
+    # @return [Node]
+    #
+    def mirror_tree
+      mirror_tree_support(self.root)
+      display_support(self.root)
+    end
+
+    # Doubles tree
+    # @return [Node]
+    #
+    def create_double_tree
+      node = ::BinaryTree::Node.new
+      create_double_tree_support(self.root, node)
+      display_support(node)
+    end
+
+    # Private Methods
+    #
+    private
+
     # Helper method to prints paths in a tree
     # @param node [Node]
     # @param path [Array]
@@ -86,6 +96,70 @@ module BinaryTree
     def print_nodes(path, counter)
       (0..(counter - 1)).each { |i| print path[i].value.to_s + '  ' }
       puts
+    end
+
+    # Support method for determining size of a tree
+    # @param node [Node]
+    # @return [Integer]
+    #
+    def size_support(node)
+      return 0 if node.nil?
+      size_support(node.left) + 1 + size_support(node.right)
+    end
+
+    # Finds the maximum depth of a tree
+    # @param node [Node]
+    # @return [Integer]
+    #
+    def depth_support(node)
+      return 0 if node.nil?
+      l_depth = depth_support(node.left)
+      r_depth = depth_support(node.right)
+      [l_depth, r_depth].max + 1
+    end
+
+    # Support method to mirror tree
+    # @param node [Node]
+    # @return [Node]
+    #
+    def mirror_tree_support(node)
+      return if node.nil?
+      tmp = node.left
+      node.left = node.right
+      node.right = tmp
+      mirror_tree_support(node.left)
+      mirror_tree_support(node.right)
+    end
+
+    # Support method to create mirror tree
+    # @param original_node [Node]
+    # @param mirror_node [Node]
+    # @return [Node]
+    #
+    def create_mirror_tree_support(original_node, mirror_node)
+      return if original_node.nil? || mirror_node.nil?
+      mirror_node.value = original_node.value
+      mirror_node.left = ::BinaryTree::Node.new unless original_node.right.nil?
+      mirror_node.right = ::BinaryTree::Node.new unless  original_node.left.nil?
+      create_mirror_tree_support(original_node.right, mirror_node.left)
+      create_mirror_tree_support(original_node.left, mirror_node.right)
+    end
+
+    # Double Tree Support Method
+    # @param original_node [Node]
+    # @param double_tree_node [Node]
+    # @return [Node]
+    #
+    def create_double_tree_support(original_node, double_tree_node)
+      return if original_node.nil? || double_tree_node.nil?
+      double_tree_node.value = original_node.value
+      node = ::BinaryTree::Node.new
+      node.value = original_node.value
+      double_tree_node.left = node
+      node.left = ::BinaryTree::Node.new unless original_node.left.nil?
+      double_tree_node.right = ::BinaryTree::Node.new unless original_node.right.nil?
+      create_double_tree_support(original_node.left, node.left)
+      create_double_tree_support(original_node.right, double_tree_node.right)
     end
   end
 end
