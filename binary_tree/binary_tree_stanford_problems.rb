@@ -91,6 +91,16 @@ module BinaryTree
       print is_bst_bool_hash[:is_bst_bool]
     end
 
+    # Counts the number of trees
+    # @return [Integer]
+    #
+    def count_num_trees
+      print 'Please enter the upper number :: '
+      num_keys = gets.chomp.to_i
+      sum = count_num_trees_supp(num_keys)
+      puts "Possible different binary trees having unique structure :: #{sum}"
+    end
+
     # Private Methods
     #
     private
@@ -226,6 +236,23 @@ module BinaryTree
       return true if node.nil?
       return true if node.value > min_val && node.value < max_val
       false
+    end
+
+    # Support method to count the number of trees
+    # @param num_keys [Integer]
+    # @return [Integer]
+    #
+    def count_num_trees_supp(num_keys)
+      return 1 if num_keys <= 1
+      sum_total = 0
+      (1..num_keys).each do |val|
+        sum = 0
+        left_count = count_num_trees_supp(val - 1)
+        right_count = count_num_trees_supp(num_keys - val)
+        sum += left_count * right_count
+        sum_total += sum
+      end
+      sum_total
     end
   end
 end
