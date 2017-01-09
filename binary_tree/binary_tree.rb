@@ -1,5 +1,5 @@
 require_relative '../binary_tree/binary_tree_support'
-require_relative '../binary_tree/binary_tree_problems'
+require_relative '../binary_tree/binary_tree_stanford_problems'
 
 # Used for namespacing
 #
