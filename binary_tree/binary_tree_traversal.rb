@@ -37,12 +37,13 @@ module BinaryTree
       return nil if root.nil?
       stack = Stack::Stack.new
       stack.push(root)
-      begin
+      loop do
         node = stack.pop
         print node.value.to_s + '  '
         stack.push(node.right) unless node.right.nil?
         stack.push(node.left) unless node.left.nil?
-      end until stack.empty?
+        break if stack.empty?
+      end
     end
 
     # Includes post-order iterative method
@@ -52,17 +53,19 @@ module BinaryTree
       stack_traverse = Stack::Stack.new
       stack_print = Stack::Stack.new
       stack_traverse.push(root)
-      begin
+      loop do
         node = stack_traverse.pop
         stack_traverse.push(node.left) unless node.left.nil?
         stack_traverse.push(node.right) unless node.right.nil?
         stack_print.push(node)
-      end until stack_traverse.empty?
+        break if stack_traverse.empty?
+      end
 
-      begin
+      loop do
         node = stack_print.pop
         print node.value.to_s + '  '
-      end until stack_print.empty?
+        break if stack_print.empty?
+      end
       nil
     end
 
@@ -72,7 +75,7 @@ module BinaryTree
       return nil if root.nil?
       stack = Stack::Stack.new
       node = root
-      begin
+      loop do
         until node.nil?
           stack.push(node)
           node = node.left
@@ -80,7 +83,8 @@ module BinaryTree
         node = stack.pop
         print node.value.to_s + '  '
         node = node.right
-      end until stack.empty? && node.nil?
+        break if stack.empty? && node.nil?
+      end
     end
   end
 end

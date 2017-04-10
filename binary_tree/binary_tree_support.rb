@@ -27,14 +27,16 @@ module BinaryTree
       return print EMPTY_TREE_MSG if node.nil?
       stack = Stack::Stack.new
       stack.push(node)
-      begin
+      loop do
         tmp_arr = []
-        begin
+        loop do
           tmp_arr << stack.pop
-        end until stack.empty?
+          break if stack.empty?
+        end
         print_node_arr_line(tmp_arr)
         tmp_arr.reverse.each { |x| push_node_on_stack(x, stack) }
-      end until stack.empty?
+        break if stack.empty?
+      end
       nil
     end
 
@@ -128,7 +130,7 @@ module BinaryTree
     #
     def free_node(u)
       [u.parent, u.left, u.right].each { |x| x = nil }
-      u
+      u = nil
     end
 
     # Inserts a given node in the tree
