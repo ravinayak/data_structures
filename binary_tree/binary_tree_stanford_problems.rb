@@ -112,6 +112,22 @@ module BinaryTree
       puts "Possible different binary trees having unique structure :: #{sum}"
     end
 
+    # Generate all possible binary search trees for a given array of numbers
+    # @return [Array]
+    #
+    def generate_unique_bst
+      print 'Please enter the numbers in array separated by space :: '
+      input_arr = gets.split(' ')
+      input_arr.sort!
+      unique_bst_arr = []
+      generate_unique_bst_supp(unique_bst_arr, input_arr, 0, input_arr.length-1)
+      unique_bst_arr.each do |node|
+        puts node.inspect
+        puts '***************'
+      end
+      nil
+    end
+
     # Private Methods
     #
     private
@@ -281,6 +297,36 @@ module BinaryTree
         i+=1
       end
       sum
+    end
+
+    # Generate all unique posisble binary search trees
+    # @param unique_bst_arr [Array]
+    # @param input_arr [Array]
+    # @param start_index [Integer]
+    # @param end_index [Integer]
+    # @return [Array]
+    #
+    def generate_unique_bst_supp(unique_bst_arr, input_arr, start_index, end_index)
+      if start_index > end_index
+        unique_bst_arr << nil
+        return
+      end
+      i = start_index
+      while i <= end_index
+        left_nodes_arr, right_nodes_arr = [], []
+        generate_unique_bst_supp(left_nodes_arr, input_arr, start_index, i-1)
+        generate_unique_bst_supp(right_nodes_arr, input_arr, i+1, end_index)
+        (0..(left_nodes_arr.length-1)).each do |left_index|
+          (0..right_nodes_arr.length-1).each do |right_index|
+            node = ::BinaryTree::Node.new
+            node.value = input_arr[i]
+            node.left = left_nodes_arr[left_index]
+            node.right = right_nodes_arr[right_index]
+            unique_bst_arr << node
+          end
+        end
+        i += 1
+      end
     end
   end
 end
