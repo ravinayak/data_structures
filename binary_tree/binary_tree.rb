@@ -107,7 +107,7 @@ end
 
 # To run and create binary tree
 #
-# require '/Users/ravinayak/projects/data_structures/binary_tree/binary_tree'
+# require '/Users/ravinayak/Documents/personal_projects/data_structures/binary_tree/binary_tree'
 # bt = BinaryTree::BinaryTree.new
 # [25, 18, 45, 13, 22, 35, 55, 9, 16, 20, 24, 30, 40, 50, 60, 1, 75].each do |val|
 #   bt.add_node(val)
