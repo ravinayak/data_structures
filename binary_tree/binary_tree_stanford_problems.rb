@@ -321,7 +321,9 @@ module BinaryTree
             node = ::BinaryTree::Node.new
             node.value = input_arr[i]
             node.left = left_nodes_arr[left_index]
+            node.left.parent = node unless node.left.nil?
             node.right = right_nodes_arr[right_index]
+            node.right.parent = node unless node.right.nil?
             unique_bst_arr << node
           end
         end
