@@ -101,6 +101,17 @@ module BinaryTree
       puts "Possible different binary trees having unique structure :: #{sum}"
     end
 
+    # Counts number of trees for a given array
+    # @return [Integer]
+    #
+    def count_num_of_arr_trees
+      print 'Please enter the array :: '
+      arr = gets.chomp
+      Arrays.sort!(arr)
+      sum = num_of_arr_trees_supp(arr, 0, arr.length-1)
+      puts "Possible different binary trees having unique structure :: #{sum}"
+    end
+
     # Private Methods
     #
     private
@@ -253,6 +264,22 @@ module BinaryTree
         sum_total += sum
       end
       sum_total
+    end
+
+    # Support method to count the number of trees for a given array
+    # @param arr [Array]
+    # @return [Integer]
+    #
+    def num_of_arr_trees_supp(arr, start_index, end_index)
+      return if start_index > end_index
+      i = start_index
+      sum = 0
+      while i <= end_index
+        left_count =  num_of_arr_trees_supp(arr, start_index, i - 1)
+        right_count = num_of_arr_trees_supp(arr, i + 1, end_index)
+        sum += left_count * right_count
+      end
+      sum
     end
   end
 end
