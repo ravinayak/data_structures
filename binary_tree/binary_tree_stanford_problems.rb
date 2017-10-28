@@ -245,10 +245,10 @@ module BinaryTree
       return true if node.nil?
 
       is_bst_support(node.left, min, node.value, is_bst_bool_hash)
-      left_is_bst = valid_node_data?(node.left, min, node.value)
+      left_is_bst = valid_node_data?(node.left, min, node.value, :left)
 
       is_bst_support(node.right, node.value + 1, max, is_bst_bool_hash)
-      right_is_bst = valid_node_data?(node.right, node.value + 1, max)
+      right_is_bst = valid_node_data?(node.right, node.value + 1, max, :right)
 
       is_bst_bool_hash[:is_bst_bool] = false unless left_is_bst && right_is_bst
     end
@@ -259,9 +259,27 @@ module BinaryTree
     # @param max_val [Integer]
     # @return [TrueClass/FalseClass]
     #
-    def valid_node_data?(node, min_val, max_val)
+    def valid_node_data?(node, min_val, max_val, left_or_right)
       return true if node.nil?
-      return true if node.value > min_val && node.value < max_val
+      case left_or_right
+        # This left or right split is essential to preserve the structure of binary tree that
+        # all nodes less than or equal to parent go to left and only nodes greater than current node
+        # go to right
+        # This leads to a small bug that max value cannot be allocated to any node in the binary tree
+        #
+        # Run the algorithm for following binary tree
+        #               100
+        #         90              110
+        #   80        95    105         115
+        #                                     120
+        #
+      when :left
+        return true if node.value >= min_val && node.value <= max_val
+      when :right
+        return true if node.value >= min_val && node.value < max_val
+      else
+        false # This use case should never be reached
+      end
       false
     end
 
