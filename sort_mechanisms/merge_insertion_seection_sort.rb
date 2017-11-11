@@ -11,15 +11,16 @@ module SortMechanisms
     # Merge Sort routine
     # @param a [Array]
     # @param sentinel_flag [Boolean]
-    # @return [NIL]
+    # @return [Array]
     #
     def merge_sort(a, sentinel_flag)
-      merge_sort_support(a, 0, a.length, sentinel_flag)
+      merge_sort_support(a, 0, a.length - 1, sentinel_flag)
+      a
     end
 
     # Insertion Sort Routine
     # @param a [Array]
-    # @return [NIL]
+    # @return [Array]
     #
     def insertion_sort(a)
       n = a.length
@@ -27,18 +28,19 @@ module SortMechanisms
       while j < n
         i = j-1
         key = a[j]
-        while i >=0 && key < a[j]
+        while i >=0 && key < a[i]
           a[i+1] = a[i]
           i -= 1
         end
         a[i+1] = key
         j += 1
       end
+      a
     end
 
     # Selection Sort Routine
     # @param a [Array]
-    # @return [NIL]
+    # @return [Array]
     #
     def selection_sort(a)
       n = a.length
@@ -53,6 +55,7 @@ module SortMechanisms
         swap(a, j-1, i) if i != j-1
         j += 1
       end
+      a
     end
 
     private
@@ -93,16 +96,16 @@ module SortMechanisms
     # @return [NIL]
     #
     def merge_combine_with_sentinel(a, p, q, r)
-      n1, n2 = prep_n1_n2(p, q, r)
-      l, r = prep_tmp_arrays(a, p, q, n1, n2)
-      l[n1+1] = r[n2+1] = MAX_VALUE
+      tmp_arr_1_len, tmp_arr_2_len = prep_tmp_arr_len(p, q, r)
+      tmp_arr_1, tmp_arr_2 = prep_tmp_arrays(a, p, q, tmp_arr_1_len, tmp_arr_2_len)
+      tmp_arr_1[tmp_arr_1_len + 1] = tmp_arr_2[tmp_arr_2_len + 1] = MAX_VALUE
       i, j, k = 1, 1, p
       while k <= r
-        if l[i] <= r[j]
-          a[k] = l[i]
+        if tmp_arr_1[i] <= tmp_arr_2[j]
+          a[k] = tmp_arr_1[i]
           i += 1
         else
-          a[k] = r[j]
+          a[k] = tmp_arr_2[j]
           j += 1
         end
         k += 1
@@ -117,10 +120,11 @@ module SortMechanisms
     # @return [NIL]
     #
     def merge_combine_without_sentinel(a, p, q, r)
-      n1, n2 = prep_n1_n2(p, q, r)
-      l, r = prep_tmp_arrays(a, p, q, n1, n2)
+      tmp_arr_1_len, tmp_arr_2_len = prep_tmp_arr_len(p, q, r)
+      tmp_arr_1, tmp_arr_2 = prep_tmp_arrays(a, p, q, tmp_arr_1_len, tmp_arr_2_len)
       options = {
-          a: a, l: l, r: r, n1: n1, n2: n2, p: p
+          a: a, tmp_arr_1: tmp_arr_1, tmp_arr_2: tmp_arr_2, tmp_arr_1_len: tmp_arr_1_len,
+          tmp_arr_2_len: tmp_arr_2_len, p: p
       }
       sort_subarrays(options)
     end
@@ -130,32 +134,36 @@ module SortMechanisms
     # @return [NIL]
     #
     def sort_subarrays(options)
-      n1, n2, a, l, r = options[:n1], options[:n2], options[:a], options[:l], options[:r]
-      i, j, k = compare_elements_and_copy(options)
+      tmp_arr_1_len, tmp_arr_2_len, a, tmp_arr_1, tmp_arr_2 =
+          options[:tmp_arr_1_len], options[:tmp_arr_2_len], options[:a], options[:tmp_arr_1], options[:tmp_arr_2]
+      tmp_arr_1_loop, tmp_arr_2_loop, orig_arr_loop = compare_elements_and_copy(options)
       options_hash = {
-          loop: i, max_len: n1, orig_arr: a, tmp_arr: l, orig_arr_len: k, tmp_arr_len: i
+          max_len: tmp_arr_1_len, orig_arr: a, tmp_arr: tmp_arr_1, orig_arr_loop: orig_arr_loop,
+          tmp_arr_loop: tmp_arr_1_loop
       }
-      k = iterate_and_copy(options_hash)
+      orig_arr_loop = iterate_and_copy(options_hash)
       options_hash = {
-          loop: j, max_len: n2, orig_arr: a, tmp_arr: r, orig_arr_len: k, tmp_arr_len: j
+          max_len: tmp_arr_2_len, orig_arr: a, tmp_arr: tmp_arr_2, orig_arr_loop: orig_arr_loop,
+          tmp_arr_loop: tmp_arr_2_loop
       }
       iterate_and_copy(options_hash)
     end
 
 
-    # Compares elements of two sub arrays and copies them into a
+    # Compares elements of two sub arrays and copies them into a single array
     # @param options [Hash]
     # @return [Array]
     #
     def compare_elements_and_copy(options)
-      a, l, r, n1, n2, p = options[:a], options[:l], options[:r], options[:n1], options[:n2], options[:p]
+      a, tmp_arr_1, tmp_arr_2, tmp_arr_1_len, tmp_arr_2_len, p = options[:a], options[:tmp_arr_1],
+          options[:tmp_arr_2], options[:tmp_arr_1_len], options[:tmp_arr_2_len], options[:p]
       i, j, k = 1, 1, p
-      while i <= n1 && j <= n2
-        if l[i] <= r[j]
-          a[k] = l[i]
+      while i <= tmp_arr_1_len && j <= tmp_arr_2_len
+        if tmp_arr_1[i] <= tmp_arr_2[j]
+          a[k] = tmp_arr_1[i]
           i += 1
         else
-          a[k] = r[j]
+          a[k] = tmp_arr_2[j]
           j += 1
         end
         k += 1
@@ -168,23 +176,23 @@ module SortMechanisms
     # @return [Integer]
     #
     def iterate_and_copy(options)
-      loop, max_len, orig_arr, tmp_arr, orig_arr_len, tmp_arr_len =  options[:loop], options[:max_len],
-          options[:orig_arr], options[:tmp_arr], options[:orig_arr_len], options[:tmp_arr_len]
-      while loop<= max_len
-        orig_arr[orig_arr_len] = tmp_arr[tmp_arr_len]
-        orig_arr_len += 1
-        tmp_arr_len += 1
+      tmp_arr_loop, max_len, a, tmp_arr, orig_arr_loop =  options[:tmp_arr_loop], options[:max_len],
+          options[:orig_arr], options[:tmp_arr], options[:orig_arr_loop]
+      while tmp_arr_loop <= max_len
+        a[orig_arr_loop] = tmp_arr[tmp_arr_loop]
+        orig_arr_loop += 1
+        tmp_arr_loop += 1
       end
-      orig_arr_len
+      orig_arr_loop
     end
 
-    # Evlautes length of subarrays
+    # Evaluates length of subarrays
     # @param p [Integer]
     # @param q [Integer]
     # @param r [Integer]
     # @return [Array]
     #
-    def prep_n1_n2(p, q, r)
+    def prep_tmp_arr_len(p, q, r)
       [
         q - p + 1,
         r - q
@@ -192,18 +200,18 @@ module SortMechanisms
     end
 
     # Copies elements from subarrays into temp arrays and returns temp arrays
-    # @param n1 [Integer]
-    # @param n2 [Integer]
+    # @param tmp_arr_1_len [Integer]
+    # @param tmp_arr_2_len [Integer]
     # @param p [Integer]
     # @param q [Integer]
     # @param a [Array]
     # @return [Array]
     #
-    def prep_tmp_arrays(a, p, q, n1, n2)
-      l, r = [], []
-      (1..n1).each { |x| l[x] = a[p + x - 1] }
-      (1..n2).each { |x| r[x] = a[q + x] }
-      [ l, r ]
+    def prep_tmp_arrays(a, p, q, tmp_arr_1_len, tmp_arr_2_len)
+      tmp_arr_1, tmp_arr_2 = [], []
+      (1..tmp_arr_1_len).each { |x| tmp_arr_1[x] = a[p + x - 1] }
+      (1..tmp_arr_2_len).each { |x| tmp_arr_2[x] = a[q + x] }
+      [ tmp_arr_1, tmp_arr_2 ]
     end
   end
 end
