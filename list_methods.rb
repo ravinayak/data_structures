@@ -65,6 +65,23 @@ module ListMethods
     { curr_node: curr_node, prev_node: prev_node, node: curr_node }
   end
 
+  # Find a node given node number
+  # @param node_num [Integer]
+  # @return [Node]
+  #
+  def value_given_node_no_support(node_num)
+    met_resp = analyze_head_support
+    return nil if met_resp[:node].nil?
+
+    node, counter = self.head.next_node, 1
+    until node.nil? || counter == node_num
+      counter += 1
+      node = node.next_node
+    end
+
+    node
+  end
+
   # Print list value
   # @return [String]
   #
@@ -82,12 +99,16 @@ module ListMethods
     met_resp = analyze_head_support
     return 0 if met_resp[:node].nil?
 
-    node, counter = self.head, 0
+    # Head is a dummy node, so there is one extra node than the values added to
+    # the list
+    #
+    node, length = self.head.next_node, 0
     until node.nil?
-      counter += 1
+      length += 1
       node = node.next_node
     end
-    counter
+
+    length
   end
 
   # Traverse list

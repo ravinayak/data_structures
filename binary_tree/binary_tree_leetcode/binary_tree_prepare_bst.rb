@@ -29,6 +29,8 @@ module BinaryTree
     # @return [Node]
     #
     def prep_balanced_bst_sorted_arr(arr)
+      # Array Index starts at 0
+      #
       bst_sorted_arr_support(arr, 0, arr.length - 1)
     end
 
@@ -37,9 +39,11 @@ module BinaryTree
     # @return [Node]
     #
     def prep_balanced_bst_sorted_list(list)
-      length = list.respond_to?(:determine_length) ? list.determine_length : nil
+      length = list &.determine_length
       return nil if length.nil?
-      bst_sorted_list_support(arr, 0, length)
+      # Linked List length starts from 1 and goes till length of list
+      #
+      bst_sorted_list_support(list, 1, length)
     end
 
     private
@@ -53,7 +57,7 @@ module BinaryTree
     def bst_sorted_arr_support(arr, start_index, end_index)
       return nil if start_index > end_index
       mid_index = ((start_index + end_index)/2).floor
-      node = BinaryTree::Node.new
+      node = Node.new
       node.value = arr[mid_index]
       node.left = bst_sorted_arr_support(arr, start_index, mid_index - 1)
       node.right = bst_sorted_arr_support(arr, mid_index + 1, end_index)
@@ -61,21 +65,31 @@ module BinaryTree
     end
 
     # Support method to prepare BST
-    # @params arr [Array]
+    # @params list [LinkedList]
     # @params start_index [Integer]
     # @params end_index [Integer]
     # @return [Node]
     #
-    def bst_sorted_list_support(arr, start_index, end_index)
+    def bst_sorted_list_support(list, start_index, end_index)
       return nil if start_index > end_index
       mid_index = ((start_index + end_index)/2).floor
-      left_subtree = bst_sorted_arr_support(arr, start_index, mid_index - 1)
-      right_subtree = bst_sorted_arr_support(arr, mid_index + 1, end_index)
-      node = BinaryTree::Node.new
-      node.value = arr[mid_index]
+      left_subtree = bst_sorted_list_support(list, start_index, mid_index - 1)
+      right_subtree = bst_sorted_list_support(list, mid_index + 1, end_index)
+      node = Node.new
+      puts mid_index
+      node.value = list.find_value_given_node_no(mid_index) &.value
       node.left = left_subtree
       node.right = right_subtree
       node
     end
   end
 end
+
+# require '/Users/ravinayak/Documents/personal_projects/data_structures/binary_tree/binary_tree'
+# require '/Users/ravinayak/Documents/personal_projects/data_structures/linked_list/linked_list'
+# bt = BinaryTree::BinaryTree.new
+# a = [4, 6, 9, 13, 45, 67, 89, 95, 112]
+# list = LinkedList::LinkedList.new
+# a.each { |val| list.add_node(val) }
+# bt.prep_balanced_bst_sorted_arr(a)
+# bt.prep_balanced_bst_sorted_list(list)

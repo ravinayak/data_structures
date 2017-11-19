@@ -70,6 +70,14 @@ module LinkedList
 
       met_resp[:node]
     end
+
+    # Find Value of a node when number of node is given
+    # @param node_num [Integer]
+    # @return [String]
+    #
+    def find_value_given_node_no(node_num)
+      value_given_node_no_support(node_num)
+    end
     # Code to create a list and add nodes to it
     # Print list
     #
