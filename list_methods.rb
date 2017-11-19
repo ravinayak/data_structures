@@ -75,6 +75,21 @@ module ListMethods
     print list_value_node[:list_value]
   end
 
+  # Determine Length of Linked List
+  # @return [Integer]
+  #
+  def determine_length_support
+    met_resp = analyze_head_support
+    return 0 if met_resp[:node].nil?
+
+    node, counter = self.head, 0
+    until node.nil?
+      counter += 1
+      node = node.next_node
+    end
+    counter
+  end
+
   # Traverse list
   # @return [Array]
   #

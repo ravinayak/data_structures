@@ -53,6 +53,13 @@ module LinkedList
       traverse_support
     end
 
+    # Determine length of list
+    # @return [Integer]
+    #
+    def determine_length
+      determine_length_support
+    end
+
     # Finds a node for given value
     # @param value [String]
     # @return [Node]
