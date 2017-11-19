@@ -76,7 +76,6 @@ module BinaryTree
       left_subtree = bst_sorted_list_support(list, start_index, mid_index - 1)
       right_subtree = bst_sorted_list_support(list, mid_index + 1, end_index)
       node = Node.new
-      puts mid_index
       node.value = list.find_value_given_node_no(mid_index) &.value
       node.left = left_subtree
       node.right = right_subtree
