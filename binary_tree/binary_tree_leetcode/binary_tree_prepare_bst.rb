@@ -23,6 +23,13 @@ module BinaryTree
     # until we reach the 1st node, create a node for tree, this would be the leaf and then assign it to
     # the parent node. This way we encounter nodes in serial order and we have to traverse the list only twice
     # - 1. To get length of the list 2. To prepare BST
+    # The algorithm works in the following way,
+    #   a. Assign current to header of list
+    #   b. Create left node by repeatedly traversing left
+    #   c. Create root node by advancing the current pointer to next node
+    #   d. Create right node by traversing right and pass current to this recursion
+    #   e. Assign left and right to root
+    #   f. Return root
     #
     # Prepares BST from Sorted Array
     # @params arr [Array]
@@ -43,7 +50,13 @@ module BinaryTree
       return nil if length.nil?
       # Linked List length starts from 1 and goes till length of list
       #
-      bst_sorted_list_support(list, 1, length)
+      # We need a hash here because we want the value of current to change across recursion. If we
+      # change the value of current in any step of recursion deep down, and come back to the previous level
+      # then , due to stack holding the value, the previous value of current would be retained and the change
+      # would not be reflected. To reflect the change in current we pass a hash and change the value of key
+      #
+      curr_hash = { curr: list.head }
+      bst_sorted_list_support(curr_hash, 1, length)
     end
 
     private
@@ -65,18 +78,22 @@ module BinaryTree
     end
 
     # Support method to prepare BST
-    # @params list [LinkedList]
+    # @params curr_hash [Hash containing pointer to Current Node]
     # @params start_index [Integer]
     # @params end_index [Integer]
     # @return [Node]
     #
-    def bst_sorted_list_support(list, start_index, end_index)
+    def bst_sorted_list_support(curr_hash, start_index, end_index)
       return nil if start_index > end_index
       mid_index = ((start_index + end_index)/2).floor
-      left_subtree = bst_sorted_list_support(list, start_index, mid_index - 1)
-      right_subtree = bst_sorted_list_support(list, mid_index + 1, end_index)
+      left_subtree = bst_sorted_list_support(curr_hash, start_index, mid_index - 1)
       node = Node.new
-      node.value = list.find_value_given_node_no(mid_index) &.value
+      curr = curr_hash[:curr] &.next_node
+      node.value = curr &.value
+      # This will change the value of curr across recursion
+      #
+      curr_hash[:curr] = curr
+      right_subtree = bst_sorted_list_support(curr_hash, mid_index + 1, end_index)
       node.left = left_subtree
       node.right = right_subtree
       node
@@ -90,5 +107,5 @@ end
 # a = [4, 6, 9, 13, 45, 67, 89, 95, 112]
 # list = LinkedList::LinkedList.new
 # a.each { |val| list.add_node(val) }
-# bt.prep_balanced_bst_sorted_arr(a)
 # bt.prep_balanced_bst_sorted_list(list)
+# bt.prep_balanced_bst_sorted_arr(a)
