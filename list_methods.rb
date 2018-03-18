@@ -29,9 +29,14 @@ module ListMethods
   # @return [Object]
   #
   def node_class(list_type_sym)
-    return ::LinkedList::Node if list_type_sym == :linked_list
-    return ::DoublyLinkedList::Node if list_type_sym == :doubly_linked_list
-    nil
+    case list_type_sym
+    when :linked_list
+      ::LinkedList::Node
+    when :doubly_linked_list
+      ::DoublyLinkedList::Node
+    else
+      nil
+    end
   end
 
   # Remove a node
