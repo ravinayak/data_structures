@@ -74,8 +74,9 @@ module BinaryTree
     def ite_post_order_using_one_stack(root)
 	    return nil if root.nil?
 	    st = Stack::Stack.new
-	    unless st.empty? && current.nil?
-				unless current.nil?
+	    current = root
+	    while !st.empty? || !current.nil?
+				while !current.nil?
 					st.push(current)
 					current = current.left
 				end
@@ -91,6 +92,7 @@ module BinaryTree
 					current = temp
 				end
 	    end
+	    nil
     end
 
     # Includes in-order iterative method
