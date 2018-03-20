@@ -33,6 +33,14 @@ module Stack
       self.curr -= 1
       val
     end
+    
+    # Returns element at top without removing it
+    # @return [Object]
+    #
+    def peek
+	    return nil if self.curr == 0
+	    self.arr[self.curr - 1]
+    end
 
     # Returns true if no element exists in stack
     # @return [TrueClass/FalseClass]

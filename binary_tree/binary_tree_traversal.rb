@@ -1,7 +1,7 @@
 # Used for namespacing
 #
 module BinaryTree
-  # Includes methods for traversal of tree
+  # Includes Recursive and Iterative methods for traversal of tree
   #
   module BinaryTreeTraversal
     # Includes pre-order traversal method
@@ -67,6 +67,30 @@ module BinaryTree
         break if stack_print.empty?
       end
       nil
+    end
+    
+    # Includes post-order iterative method which uses one stack
+    #
+    def ite_post_order_using_one_stack(root)
+	    return nil if root.nil?
+	    st = Stack::Stack.new
+	    unless st.empty? && current.nil?
+				unless current.nil?
+					st.push(current)
+					current = current.left
+				end
+				temp = st.peek.right
+				if temp.nil?
+					temp = st.pop
+					print temp.value.to_s + ' '
+					while !st.empty? && temp == st.peek.right
+						temp = st.pop
+						print temp.value.to_s + ' '
+					end
+				else
+					current = temp
+				end
+	    end
     end
 
     # Includes in-order iterative method
