@@ -11,7 +11,7 @@ module BinaryTree
     # Includes modules
     #
     include BinaryTree::BinaryTreeTraversal
-    include BinaryTree::BinaryTreeMorrisTraversals
+    include BinaryTree::BinaryTreeMorrisTraversal
 
     # Constant to Hold Message
     #
@@ -81,16 +81,16 @@ module BinaryTree
     end
     
     # Compute in-order predecessor of a node
-    # @param [Node]
+    # @param node [Node]
     # @return [Node]
     #
     def prep_in_order_predecessor(node)
-	    return tree_maximum(node.left) unless node.right.nil?
-	    y, x = node.parent, node
-	    until y.nil? || x == y.right
-				x = y
-				y = x.parent
-	    end
+      return tree_maximum_support(node.left) unless node.left.nil?
+      y, x = node.parent, node
+      until y.nil? || x == y.right
+        x = y
+        y = y.parent
+      end
     end
 
     # Delete a node
@@ -232,20 +232,20 @@ module BinaryTree
       return node_or_value if node_or_value.is_a?(Node)
       search(node_or_value)
     end
-		
-		# Finds reverse set of nodes from current node's left to its predecessor
+    
+    # Finds reverse set of nodes from current node's left to predecessor
     # @param current [Node]
     # @param predecessor [Node]
-    # @return [Array of Nodes]
+    # @return [Array]
     #
     def current_left_to_predecessor(current, predecessor)
-	    return [] if current.nil? || current.left.nil? || predecessor.nil?
-	    y, arr = current.left, []
-	    until y.nil?
-				arr << y.value
-				y = y.right
-	    end
-	    arr.reverse
+      return [] if current.nil? || current.left.nil? || predecessor.nil?
+      y, res_arr = current.left, []
+      until y.nil?
+        res_arr << y.value
+        y = y.right
+      end
+      res_arr.reverse
     end
   end
 end
