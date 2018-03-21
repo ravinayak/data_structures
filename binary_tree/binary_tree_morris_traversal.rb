@@ -81,6 +81,8 @@ module BinaryTree
           end
         end
       end
+      res_arr.each { |node_value| print node_value.to_s + ' '}
+      nil
     end
   end
 end
