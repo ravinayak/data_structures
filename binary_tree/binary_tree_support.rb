@@ -1,6 +1,7 @@
 require_relative '../stack/stack'
 require_relative '../binary_tree/node'
 require_relative '../binary_tree/binary_tree_traversal'
+require_relative '../binary_tree/binary_tree_morris_traversals'
 # Used for namespacing
 #
 module BinaryTree
@@ -10,6 +11,7 @@ module BinaryTree
     # Includes modules
     #
     include BinaryTree::BinaryTreeTraversal
+    include BinaryTree::BinaryTreeMorrisTraversals
 
     # Constant to Hold Message
     #
@@ -76,6 +78,19 @@ module BinaryTree
         y = y.parent
       end
       y
+    end
+    
+    # Compute in-order predecessor of a node
+    # @param [Node]
+    # @return [Node]
+    #
+    def prep_in_order_predecessor(node)
+	    return tree_maximum(node.left) unless node.right.nil?
+	    y, x = node.parent, node
+	    until y.nil? || x == y.right
+				x = y
+				y = x.parent
+	    end
     end
 
     # Delete a node
@@ -216,6 +231,21 @@ module BinaryTree
     def prep_node_for_input(node_or_value)
       return node_or_value if node_or_value.is_a?(Node)
       search(node_or_value)
+    end
+		
+		# Finds reverse set of nodes from current node's left to its predecessor
+    # @param current [Node]
+    # @param predecessor [Node]
+    # @return [Array of Nodes]
+    #
+    def current_left_to_predecessor(current, predecessor)
+	    return [] if current.nil? || current.left.nil? || predecessor.nil?
+	    y, arr = current.left, []
+	    until y.nil?
+				arr << y.value
+				y = y.right
+	    end
+	    arr.reverse
     end
   end
 end

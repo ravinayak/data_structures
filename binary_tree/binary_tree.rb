@@ -88,6 +88,16 @@ module BinaryTree
       prep_in_order_successor(node)
     end
 
+    # Compute in-order prdecessor of a value
+    # @param value [String]
+    # @return [Node]
+    #
+    def in_order_predecessor(value)
+	    node = search(value)
+	    return nil if node.nil?
+	    prep_in_order_predecessor(node)
+    end
+
     # Displays nodes of a tree level wise
     # @return [NIL]
     #

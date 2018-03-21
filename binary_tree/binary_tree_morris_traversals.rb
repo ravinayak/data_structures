@@ -1,4 +1,4 @@
-# Binary Tree module
+# Used for namespacing
 #
 module BinaryTree
 	# Includes Morris Order Traversals
@@ -16,7 +16,7 @@ module BinaryTree
 					print current.value.to_s + ' '
 					current = current.right
 				else
-					predecessor = find_in_order_predecessor(current)
+					predecessor = in_order_predecessor(current)
 					if predecessor.right.nil?
 						predecessor.right = current
 						current = current.left
@@ -41,7 +41,7 @@ module BinaryTree
 					print current.value.to_s + ' '
 					current = current.right
 				else
-					predecessor = find_in_order_predecessor(current)
+					predecessor = in_order_predecessor(current)
 					if predecessor.right.nil?
 						predecessor.right = current
 						print current.value.to_s + ' '
@@ -68,13 +68,13 @@ module BinaryTree
 				if current.left.nil?
 					current = current.right
 				else
-					predecessor = find_in_order_predecessor(current)
+					predecessor = in_order_predecessor(current)
 					if predecessor.right.nil?
 						predecessor.right = current
 						current = current.left
 					else
 						predecessor.right = nil
-						result_arr << find_reverse_set_of_nodes(current, predecessor)
+						result_arr << current_left_to_predecessor(current, predecessor)
 						current = current.right
 					end
 				end
