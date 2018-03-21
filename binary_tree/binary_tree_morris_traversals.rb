@@ -16,7 +16,7 @@ module BinaryTree
 					print current.value.to_s + ' '
 					current = current.right
 				else
-					predecessor = in_order_predecessor(current)
+					predecessor = prep_in_order_predecessor(current)
 					if predecessor.right.nil?
 						predecessor.right = current
 						current = current.left
@@ -41,7 +41,7 @@ module BinaryTree
 					print current.value.to_s + ' '
 					current = current.right
 				else
-					predecessor = in_order_predecessor(current)
+					predecessor = prep_in_order_predecessor(current)
 					if predecessor.right.nil?
 						predecessor.right = current
 						print current.value.to_s + ' '
@@ -68,7 +68,7 @@ module BinaryTree
 				if current.left.nil?
 					current = current.right
 				else
-					predecessor = in_order_predecessor(current)
+					predecessor = prep_in_order_predecessor(current)
 					if predecessor.right.nil?
 						predecessor.right = current
 						current = current.left
