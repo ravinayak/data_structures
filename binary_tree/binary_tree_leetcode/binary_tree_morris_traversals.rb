@@ -1,9 +1,9 @@
-# Used for namespacing
+# Binary Tree module
 #
 module BinaryTree
-	# Includes methods for Morris Traversal of BST
+	# Includes Morris Order Traversals
 	#
-	module BinaryTreeMorrisTraversal
+	module BinaryTreeMorrisTraversals
 		# In-Order Traversal
 		# @param root [Node]
 		# @return [NIL]
@@ -79,7 +79,7 @@ module BinaryTree
 					end
 				end
 			end
-			result_arr.each { |node| print node.value.to_s + ' ' }
+			result_arr.each {|node| print node.value.to_s + ' '}
 			nil
 		end
 	end
