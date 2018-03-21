@@ -1,7 +1,7 @@
 require_relative '../stack/stack'
 require_relative '../binary_tree/node'
 require_relative '../binary_tree/binary_tree_traversal'
-require_relative '../binary_tree/binary_tree_morris_traversals'
+require_relative '../binary_tree/binary_tree_morris_traversal'
 # Used for namespacing
 #
 module BinaryTree
