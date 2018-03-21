@@ -11,13 +11,13 @@ module BinaryTree
     #
     def in_order_morris_traversal(root)
       return nil if root.nil?
-      current = root
+      current, predecessor_store = root, { }
       until current.nil?
         if current.left.nil?
           print current.value.to_s + ' '
           current = current.right
         else
-          predecessor = prep_in_order_predecessor(current)
+          predecessor = prepare_store_predecessor(current, predecessor_store)
           if predecessor.right.nil?
             predecessor.right = current
             current = current.left
@@ -37,13 +37,13 @@ module BinaryTree
     #
     def pre_order_morris_traversal(root)
       return nil if root.nil?
-      current = root
+      current, predecessor_store = root, { }
       until current.nil?
         if current.left.nil?
           print current.value.to_s + ' '
           current = current.right
         else
-          predecessor = prep_in_order_predecessor(current)
+          predecessor = prepare_store_predecessor(current, predecessor_store)
           if predecessor.right.nil?
             predecessor.right = current
             print current.value.to_s + ' '
@@ -65,12 +65,12 @@ module BinaryTree
       return nil if root.nil?
       temp = Node.new
       temp.left = root
-      current, res_arr = temp, []
+      current, res_arr, predecessor_store = temp, [], { }
       until current.nil?
         if current.left.nil?
           current = current.right
         else
-          predecessor = prep_in_order_predecessor(current)
+          predecessor = prepare_store_predecessor(current, predecessor_store)
           if predecessor.right.nil?
             predecessor.right = current
             current = current.left
@@ -81,8 +81,18 @@ module BinaryTree
           end
         end
       end
-      res_arr.each { |node_value| print node_value.to_s + ' '}
+      res_arr.flatten.each { |node_value| print node_value.to_s + ' '}
       nil
+    end
+    
+    # Finds Predecessor of a node in store if it exists, else computes it and stores it in store
+    # @param node [Node]
+    # @param node_predecessor_hash [Hash]
+    # @return [Node]
+    #
+    def prepare_store_predecessor(node, predecessor_store)
+      return predecessor_store[node.object_id] unless predecessor_store[node.object_id].nil?
+      predecessor_store[node.object_id] = prep_in_order_predecessor(node)
     end
   end
 end
