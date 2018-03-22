@@ -87,7 +87,7 @@ module BinaryTree
     
     # Finds Predecessor of a node in store if it exists, else computes it and stores it in store
     # @param node [Node]
-    # @param node_predecessor_hash [Hash]
+    # @param predecessor_store [Hash]
     # @return [Node]
     #
     def prepare_store_predecessor(node, predecessor_store)
