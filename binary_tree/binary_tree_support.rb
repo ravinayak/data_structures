@@ -247,5 +247,49 @@ module BinaryTree
       end
       res_arr.reverse
     end
+    
+    # Augments BST with total nodes count and prepares it
+    # so we can find nth smallest elements
+    # @param root [Node]
+    # @param lr_count_store [Hash]
+    # @param left_right_count_sym [Symbol]
+    # @return [NIL]
+    #
+    def augment_to_keep_node_counts(root, lr_count_store, left_right_count_sym)
+      st = Stack::Stack.new
+      node = root
+      loop do
+        until node.nil?
+          st.push(node)
+          node = node.left
+        end
+        node = st.pop
+        lr_count_store[node.object_id] = { }
+        store_left_node_count(node, lr_count_store) if left_right_count_sym == :left_count
+        store_right_node_count(node, lr_count_store) if left_right_count_sym == :right_count
+        node = node.right
+        break if node.nil? && st.empty?
+      end
+    end
+
+    # Prepares hash for storing left right count of nodes for a given node
+    # @param node [Node]
+    # @param lr_count_store [Hash]
+    # @return [Hash]
+    #
+    def store_right_node_count(node, lr_count_store)
+      right_nodes_count = size_support(node.right)
+      lr_count_store[node.object_id].merge!(right_nodes_count: right_nodes_count)
+    end
+    
+    # Prepares hash for storing left right count of nodes for a given node
+    # @param node [Node]
+    # @param lr_count_store [Hash]
+    # @return [Hash]
+    #
+    def store_left_node_count(node, lr_count_store)
+      left_nodes_count = size_support(node.left)
+      lr_count_store[node.object_id].merge!(left_nodes_count: left_nodes_count)
+    end
   end
 end
