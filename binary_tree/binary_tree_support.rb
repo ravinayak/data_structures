@@ -91,6 +91,7 @@ module BinaryTree
         x = y
         y = y.parent
       end
+      y
     end
 
     # Delete a node
@@ -290,6 +291,26 @@ module BinaryTree
     def store_left_node_count(node, lr_count_store)
       left_nodes_count = size_support(node.left)
       lr_count_store[node.object_id].merge!(left_nodes_count: left_nodes_count)
+    end
+
+    # Finds Predecessor of a node in store if it exists, else computes it and stores it in store
+    # @param node [Node]
+    # @param predecessor_store [Hash]
+    # @return [Node]
+    #
+    def prepare_store_predecessor(node, predecessor_store)
+      return predecessor_store[node.object_id] unless predecessor_store[node.object_id].nil?
+      predecessor_store[node.object_id] = prep_in_order_predecessor(node)
+    end
+
+    # Finds Successor of a node in store if it exists, else computes it and stores it in store
+    # @param node [Node]
+    # @param successor_store [Hash]
+    # @return [Node]
+    #
+    def prepare_store_successor(node, successor_store)
+      return successor_store[node.object_id] unless successor_store[node.object_id].nil?
+      successor_store[node.object_id] = prep_in_order_successor(node)
     end
   end
 end

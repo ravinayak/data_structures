@@ -84,6 +84,62 @@ module BinaryTree
       find_nth_largest_element(root, n, lr_count_store)
     end
     
+    # Finds nth smallest element using Morris Traversal
+    # @param root [Node]
+    # @param n [Numeric]
+    # @return [Node]
+    #
+    def nth_smallest_using_morris(root, n)
+      return nil if n <= 0
+      current, count, predecessor_store = root, 0, { }
+      until current.nil?
+        if current.left.nil?
+          count = count + 1
+          puts "n(#{n})th Smallest Element :: #{current.value.to_s}" if count == n
+          current = current.right
+        else
+          predecessor = prepare_store_predecessor(current, predecessor_store)
+          if predecessor.right.nil?
+            predecessor.right = current
+            current = current.left
+          else
+            predecessor.right = nil
+            count = count + 1
+            puts "n(#{n})th Smallest Element :: #{current.value.to_s}" if count == n
+            current = current.right
+          end
+        end
+      end
+    end
+
+    # Finds nth largest element using Morris Traversal
+    # @param root [Node]
+    # @param n [Numeric]
+    # @return [Node]
+    #
+    def nth_largest_using_morris(root, n)
+      return nil if n <= 0
+      current, count, successor_store = root, 0, { }
+      until current.nil?
+        if current.right.nil?
+          count = count + 1
+          puts "n(#{n})th Smallest Element :: #{current.value.to_s}" if count == n
+          current = current.left
+        else
+          successor = prepare_store_successor(current, successor_store)
+          if successor.left.nil?
+            successor.left = current
+            current = current.right
+          else
+            successor.left = nil
+            count = count + 1
+            puts "n(#{n})th Smallest Element :: #{current.value.to_s}" if count == n
+            current = current.left
+          end
+        end
+      end
+   end
+    
     private
     
     # Support method to find nth smallest element using extra storage space

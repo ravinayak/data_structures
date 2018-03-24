@@ -84,15 +84,5 @@ module BinaryTree
       res_arr.flatten.each { |node_value| print node_value.to_s + ' '}
       nil
     end
-    
-    # Finds Predecessor of a node in store if it exists, else computes it and stores it in store
-    # @param node [Node]
-    # @param predecessor_store [Hash]
-    # @return [Node]
-    #
-    def prepare_store_predecessor(node, predecessor_store)
-      return predecessor_store[node.object_id] unless predecessor_store[node.object_id].nil?
-      predecessor_store[node.object_id] = prep_in_order_predecessor(node)
-    end
   end
 end
