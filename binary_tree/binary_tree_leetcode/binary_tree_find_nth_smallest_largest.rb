@@ -72,11 +72,21 @@ module BinaryTree
       augment_to_keep_node_counts(root, lr_count_store, :left_count)
       find_nth_smallest_element(root, n, lr_count_store)
     end
+
+    # Finds nth largest element using extra storage space
+    # @param root [Node]
+    # @param n [Numeric]
+    # @return [Node]
+    #
+    def nth_largest_using_augment(root, n)
+      lr_count_store = { }
+      augment_to_keep_node_counts(root, lr_count_store, :right_count)
+      find_nth_largest_element(root, n, lr_count_store)
+    end
     
     private
     
-    # Support method to find nth smallest element using
-    # O(1) storage space
+    # Support method to find nth smallest element using extra storage space
     # @param node [Node]
     # @param n [Numeric]
     # @param lr_count_store [Hash]
@@ -88,6 +98,20 @@ module BinaryTree
       return node.value.to_s if n_new.zero?
       return find_nth_smallest_element(node.left, n, lr_count_store)  if n_new < 0
       find_nth_smallest_element(node.right, n_new, lr_count_store)
+    end
+
+    # Support method to find nth largest element using extra storage space
+    # @param node [Node]
+    # @param n [Numeric]
+    # @param lr_count_store [Hash]
+    # @return [Node]
+    #
+    def find_nth_largest_element(node, n, lr_count_store)
+      return nil if node.nil?
+      n_new = n - (lr_count_store[node.object_id][:right_nodes_count] + 1)
+      return node.value.to_s if n_new.zero?
+      return find_nth_largest_element(node.right, n, lr_count_store)  if n_new < 0
+      find_nth_largest_element(node.left, n_new, lr_count_store)
     end
   end
 end
