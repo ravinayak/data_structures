@@ -6,6 +6,21 @@ module DynamicProgramming
   #
   class CoinChange
     
+    # Attribute Accessors
+    #
+    attr_accessor :j, :denomination_arr
+
+    # Initialize method
+    # @param denomination_arr [Array] Array of available denominations of coins
+    # @param j [Numeric] Amount whose change is to be made
+    def initialize(j, denomination_arr)
+      @j = j
+      @denomination_arr = denomination_arr
+      @coin_change_arr = []
+      @minimum_coin_arr = []
+      @coin_change_arr = []
+    end
+    
     # Problem Statement =>
     #
     #   a.  let D = { d1, d2, ..., dk } be a finite set of distinct coin denominations.
@@ -36,7 +51,7 @@ module DynamicProgramming
     #               |                                           we do not need any coins]
     #               | Sigma { 1 + C[j - d(i)] }     , j >= 1  [ When we choose a coin of denomination of d(i), number
     #               |         1<= i <- k                        of coins is increased by 1, and the value for which
-    #               |                                           we are making change is decreased by d(i) ]
+    #               |                                           we are making change is decreased by d(i)]
     #               |
     #
     # The coding solution is easier and more efficient when it is calculated in a bottom-up fashion because it avoids
@@ -78,11 +93,50 @@ module DynamicProgramming
     #
     # Finds minimum coins needed and also the exact denomination of coins
     # needed for making change for "j" cents
-    # @param j [Numeric]
     # @return [Array]
     #
-    def make_change_non_matrix(j)
+    def make_change_non_matrix
+      return [nil, nil] if @j < 0
+      return [0, []] if @j == 0
+      @minimum_coin_arr, @coin_change_arr, i = [], [], 1
+      @minimum_coin_arr[0], @coin_change_arr[0] = 0, 0
+      while i <= @j
+        @minimum_coin_arr[i] = nil
+        @denomination_arr.each do |denomination|
+          if i >= denomination &&
+            (@minimum_coin_arr[i].nil? || (@minimum_coin_arr[i] > 1 + @minimum_coin_arr[i - denomination]))
+            @minimum_coin_arr[i] = 1 + @minimum_coin_arr[i - denomination]
+            @coin_change_arr[i] = denomination
+          end
+        end
+         i += 1
+      end
+      print_non_matrix_solution
+    end
     
+    # Prints the non matrix solution -
+    #   1.  Minimum number of coins needed for making change for "j" cents
+    #   2.  Coin denominations needed for making change for "j" cents
+    # @return [NIL]
+    #
+    def print_non_matrix_solution
+      puts " Minimum number of coins needed to make change for #{j} cents :: #{@minimum_coin_arr[@j]}"
+      print " Coins needed to make change :: "
+      i = @j
+      while i > 0
+        print @coin_change_arr[i].to_s + ' '
+        i = i - @coin_change_arr[i]
+      end
+      puts
+      puts " [ Minimum Number of Coins, Coin Change Array ] :: #{[@minimum_coin_arr[@j], @coin_change_arr]}"
     end
   end
 end
+
+# To run coin change problem
+#
+# require '/Users/ravinayak/Documents/personal_projects/data_structures/dynamic_programming/coin_change'
+# j, denomination_arr = 1071, [1, 10, 25, 50]
+# coin_change = DynamicProgramming::CoinChange.new(j, denomination_arr)
+# coin_change.make_change_non_matrix
+#
