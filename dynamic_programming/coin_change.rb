@@ -51,8 +51,8 @@ module DynamicProgramming
     #               |                                           infinite coins cannot suffice]
     #       C(j) =  |   0,                          , j = 0   [ When we have to make change for 0 cents,
     #               |                                           we do not need any coins]
-    #               | 1 + min { C[j - d(i)] }       , j >= 1  [ When we choose a coin of denomination of d(i), number
-    #               | 1<=i<= k                          of coins is increased by 1, and the value for which
+    #               | 1 + min { C[j - d(i)] }       , j >= 1  [ When we choose a coin of denomination d(i), number
+    #               | 1<=i<= k                                  of coins is increased by 1, and the value for which
     #               |                                           we are making change is decreased by d(i)]
     #               |
     #
@@ -237,8 +237,13 @@ module DynamicProgramming
       change_amount, row = @j, @denomination_arr_matrix.length - 1
       while change_amount > 0
         if change_amount >= @denomination_arr_matrix[row]
-          if (1 + @coin_change_matrix[row][change_amount - @denomination_arr_matrix[row]]) <=
-            @coin_change_matrix[row - 1][change_amount]
+          # If we have selected the coin of given denomination, then the current number of minimum coins
+          # needed to make change for "change" amount should be equal to use case where we select this coin
+          # and the change amount decreases by value of coin denomination, represented in matrix by same row
+          # (coin denomination) and column value decremented by value of coin denomination
+          #
+          if (1 + @coin_change_matrix[row][change_amount - @denomination_arr_matrix[row]]) ==
+            @coin_change_matrix[row][change_amount]
             # In this case the coin denomination is selected and hence we print it
             print @denomination_arr_matrix[row].to_s + '  '
             change_amount = change_amount - @denomination_arr_matrix[row]
