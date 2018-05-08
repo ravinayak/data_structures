@@ -8,7 +8,7 @@ module DynamicProgramming
     # Below is a list of DP problems to be practiced and coded
     #
     # 1.  Longest Common Subsequence
-    # 2.  Longest Palindrome Subsequence [ Only Practice - variant of 1 ]
+    # 2.  Longest Palindrome Sequence, Subsequence [ Only Practice - variant of 1 ]
     # 3.  OBST
     # 4.  Coin Change
     # 5.  Matrix Chain Multiplication
