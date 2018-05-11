@@ -1,6 +1,7 @@
 require_relative '../binary_tree/binary_tree_support'
 require_relative '../binary_tree/binary_tree_stanford_problems'
 require_relative '../binary_tree/binary_tree_leetcode/binary_tree_leetcode'
+require_relative '../binary_tree/binary_tree_geeks_for_geeks/binary_tree_geeks_for_geeks'
 
 # Used for namespacing
 #
@@ -13,6 +14,7 @@ module BinaryTree
     include BinaryTreeSupport
     include BinaryTreeStanfordProblems
     include BinaryTreeLeetcode
+    include BinaryTreeGeeksForGeeks
 
     # Attribute Accessors
     #
