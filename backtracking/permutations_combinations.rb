@@ -10,6 +10,8 @@ module Backtracking
     
     private
     
+    # Handles duplicates in an input array
+    #
     def generate_permutations_for_arr(arr, index)
       case index
       when arr.length
@@ -18,9 +20,17 @@ module Backtracking
       else
         head = index
         (head...arr.length).each do |iteration|
-          swap(arr, index, iteration)
-          generate_permutations_for_arr(arr, index + 1)
-          swap(arr, index, iteration)
+          swap_flag = false
+          case iteration
+          when index
+            generate_permutations_for_arr(arr, index + 1)
+          else
+            break if arr[iteration] == arr[index]
+            swap_flag = true
+            swap(arr, index, iteration)
+            generate_permutations_for_arr(arr, index + 1)
+            swap(arr, index, iteration) if swap_flag
+          end
         end
       end
     end
