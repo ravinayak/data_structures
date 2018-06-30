@@ -39,7 +39,7 @@ module DynamicProgramming
     # 30. Wildcard Matching
     # 31. Word break DP
     #
-    # Conceptual Practice
+    # Conceptual Practice [ 2nd Stage ]
     # 1.  Super Mario Bros
     # 2.  Printing neatly
     # 3.  Tetris
