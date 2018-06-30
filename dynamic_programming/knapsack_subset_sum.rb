@@ -31,15 +31,19 @@ module DynamicProgramming
       end
       
       return false if sum < negative_elements_sum || sum > positive_elems_sum
+      i = 0
       offset = negative_elements_sum.abs
-      row_count, col_count = arr.length + 1, sum + offset + 1
-      bool_subset_sum_arr = Array.new(row_count) { Array.new(col_count) }
-      (0..(col_count - 1)).each do |index|
+      row_count = arr.length + 1
+      col_count = offset
+      col_count = col_count + sum if sum > 0
+      bool_subset_sum_arr = Array.new(row_count) { Array.new(col_count + 1) }
+      (0..(col_count)).each do |index|
         bool_subset_sum_arr[0][index] = false
+        i = index
       end
       (1..(row_count - 1)).each do |i|
-        (0..(col_count - 1)).each do |j|
-          mapped_col_val = j + negative_elements_sum
+        (0..(col_count)).each do |j|
+          mapped_col_val = j - offset
           res = (bool_subset_sum_arr[i-1][j]) || arr[i-1] == mapped_col_val
           remainder_sum_col_count = (mapped_col_val - arr[i-1]) + offset
           if remainder_sum_col_count >= 0 && remainder_sum_col_count < col_count
@@ -49,33 +53,34 @@ module DynamicProgramming
         end
       end
       puts bool_subset_sum_arr.inspect
-      print_solution(bool_subset_sum_arr, negative_elements_sum, sum, arr)
+      print_solution(bool_subset_sum_arr, offset, col_count, arr, sum)
     end
     
     # @param bool_subset_sum_arr [Array]
-    # @param negative_elements_sum [Integer]
-    # @sum [Integer]
-    # @arr [Array]
+    # @param offset [Integer]
+    # @param col_count [Integer]
+    # @param arr [Array]
+    # @param sum [Integer]
     # @return [NIL]
     #
-    def print_solution(bool_subset_sum_arr, negative_elements_sum, sum, arr)
-      return puts "No Such Subset exists whose sum is same as given sum :: #{sum}" unless
-        bool_subset_sum_arr[arr.length][sum + negative_elements_sum.abs]
-      res_arr, offset = [], negative_elements_sum.abs
-      i, col_count = arr.length, sum + offset
+    def print_solution(bool_subset_sum_arr, offset, col_count, arr, sum)
       j = col_count
-      while i > 0 && j > 0
-          mapped_col_val = j + negative_elements_sum
+      j = j + sum if sum < 0
+      return puts "No Such Subset exists whose sum is same as given sum :: #{sum}" unless
+        bool_subset_sum_arr[arr.length][j]
+      res_arr = []
+      i = arr.length
+
+      while i > 0 && j >= 0
+          mapped_col_val = j - offset
           x = mapped_col_val - arr[i - 1]
           remainder_sum_col_count = x + offset
-          print "X #{x} -- I #{i} -- J #{j}"
           if remainder_sum_col_count < 0 || remainder_sum_col_count > col_count
             i = i - 1
           elsif x == 0
             res_arr << arr[i-1]
-            j = remainder_sum_col_count
+            j = x
           elsif bool_subset_sum_arr[i-1][remainder_sum_col_count]
-            puts 'here man'
             res_arr << arr[i-1]
             i = i -1
             j = remainder_sum_col_count
@@ -93,6 +98,12 @@ end
 #
 # require '/Users/ravinayak/Documents/personal_projects/data_structures/dynamic_programming/knapsack_subset_sum'
 # set, sum = [-3, -1, -5, 4, -7, 20 ], 10
+# set, sum = [-3, -1, -5, 4, -7, 20 ], 4
+# set, sum = [-3, -1, -5, 4, -7, 20 ], -9
+# set, sum = [-3, -1, -5, 4, -7, 20 ], -13
+# set, sum = [-3, -1, -5, 4, -7, 20 ], -13
+# set, sum = [2, 3,1, 20 ], 26
+# set, sum = [2, 3,1, 20 ], 5
 # subset = DynamicProgramming::KnapsackSubsetSum.new(set, sum)
 # subset.solve_subset_sum(set, sum)
 
