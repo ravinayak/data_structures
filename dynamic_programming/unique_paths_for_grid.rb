@@ -1,6 +1,6 @@
 # Used for namespacing
 module DynamicProgramming
-  # Class representing Grid Problems
+  # Class representing Unique Paths for Grid
   #
   class UniquePathsForGrid
     
