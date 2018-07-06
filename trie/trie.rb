@@ -34,7 +34,7 @@ module Trie
     
     private
     
-    def delete_word_prep(word, hard_delete: hard_delete)
+    def delete_word_prep(word, hard_delete: )
       node_res_hash = search_word_prep(word, @root, index: 0, parent_node_arr: { node_arr: [ ] }, store_nodes: true)
       return { message: 'Element was not found' } unless node_res_hash[:search_result]
       
@@ -70,7 +70,7 @@ module Trie
       end
     end
     
-    def prep_add_word(word, node, index: index)
+    def prep_add_word(word, node, index: )
       word_char = word[index].downcase
       
       node = Node.new(char: word_char) if node.nil?
@@ -87,7 +87,7 @@ module Trie
       node
     end
     
-    def search_word_prep(word, node, index: index, parent_node_arr: parent_node_arr, store_nodes: false)
+    def search_word_prep(word, node, index: , parent_node_arr: , store_nodes: false)
       return { parent_node_arr: parent_node_arr, search_result: false } if node.nil?
       
       word_char = word[index].downcase
