@@ -19,7 +19,7 @@ module Trie
     end
     
     def search_word(word)
-      res = search_word_prep(word, @root, index: 0, parent_node_arr: { }, store_nodes: false)[:search_result]
+      res = search_word_prep(word, @root, index: 0, parent_node_arr: { node_arr: [ ] })[:search_result]
       res.nil? ? false : res
     end
     
@@ -35,19 +35,21 @@ module Trie
     private
     
     def delete_word_prep(word, hard_delete: hard_delete)
-      node_res_hash = search_word_prep(word, @root, index: 0, parent_node_arr: { })
+      node_res_hash = search_word_prep(word, @root, index: 0, parent_node_arr: { node_arr: [ ] }, store_nodes: true)
       return { message: 'Element was not found' } unless node_res_hash[:search_result]
       
       node_arr = node_res_hash[:parent_node_arr][:node_arr]
       node_arr[node_arr.length - 1].is_end_of_word = false
       return { message: 'Element successfully deleted' } unless hard_delete
-
-      (0...node_arr.length).each do |node|
-        if node.left.nil? && node.right.nil?
-          node.mid = nil
+      
+      node_arr.reverse!
+      node_arr.each_with_index do |node, index|
+        if node.left.nil? && node.mid.nil? && node.right.nil? && index != (node_arr.length - 1)
+          node_arr[index + 1].mid = nil
           node = nil
         end
       end
+      @root = nil if @root.left.nil? && @root.mid.nil? && @root.right.nil?
     end
     
     def prep_level_display(stack)
@@ -85,18 +87,18 @@ module Trie
       node
     end
     
-    def search_word_prep(word, node, index: index, parent_node_arr: parent_node_arr, store_nodes: store_nodes)
+    def search_word_prep(word, node, index: index, parent_node_arr: parent_node_arr, store_nodes: false)
       return { parent_node_arr: parent_node_arr, search_result: false } if node.nil?
       
       word_char = word[index].downcase
       parent_node_arr[:node_arr] << node if store_nodes
       
       if word_char != '.' && word_char < node.char.downcase
-        search_word_prep(word, node.left, index: index, parent_node_arr: parent_node_arr)
+        search_word_prep(word, node.left, index: index, parent_node_arr: parent_node_arr, store_nodes: store_nodes)
       elsif word_char != '.' && word_char > node.char.downcase
-        search_word_prep(word, node.right, index: index, parent_node_arr: parent_node_arr)
+        search_word_prep(word, node.right, index: index, parent_node_arr: parent_node_arr, store_nodes: store_nodes)
       elsif index < word.length - 1
-        search_word_prep(word, node.mid, index: index + 1, parent_node_arr: parent_node_arr)
+        search_word_prep(word, node.mid, index: index + 1, parent_node_arr: parent_node_arr, store_nodes: store_nodes)
       else
         { parent_node_arr: parent_node_arr, search_result: node.is_end_of_word }
       end
@@ -109,7 +111,6 @@ end
 # require '/Users/ravinayak/Documents/personal_projects/data_structures/trie/trie'
 # trie = Trie::Trie.new
 # trie.add_word('bad')
-# trie.delete_word('bad')
 # trie.add_word("dad")
 # trie.add_word("mad")
 # trie.search_word("pad")
@@ -117,3 +118,4 @@ end
 # trie.search_word(".ad")
 # trie.search_word("b..")
 # trie.search_word('.a.')
+# trie.delete_word('bad', hard_delete: true)
