@@ -1,18 +1,30 @@
+require_relative '../stack/stack'
+
 module Backtracking
-  module PermutationsCombinations
+  class PermutationsCombinations
+  
+    attr_accessor :input
+  
+    def initialize(input = nil)
+      @input = input
+    end
     
     # Generates permutations for distinct integers in an array
     #
     def generate_permutations(arr)
-      generate_permutations_for_arr(arr, 0)
+      prepare_permutations(arr, index: 0)
     end
     
+    # Gneerate combinations for distinct integers in an array
+    #
+    def generate_combinations(arr, k_choose)
+      stack = Stack::Stack.new
+      prepare_combinations(arr, index: 0, k_choose: k_choose, stack: stack, output_arr: [])
+    end
     
     private
     
-    # Handles duplicates in an input array
-    #
-    def generate_permutations_for_arr(arr, index)
+    def prepare_permutations(arr, index:)
       case index
       when arr.length
         print arr
@@ -23,16 +35,31 @@ module Backtracking
           swap_flag = false
           case iteration
           when index
-            generate_permutations_for_arr(arr, index + 1)
+            prepare_permutations(arr, index + 1)
           else
-            break if arr[iteration] == arr[index]
             swap_flag = true
             swap(arr, index, iteration)
-            generate_permutations_for_arr(arr, index + 1)
+            prepare_permutations(arr, index + 1)
             swap(arr, index, iteration) if swap_flag
           end
         end
       end
+    end
+    
+    def prepare_combinations(arr, index: , k_choose: , stack:, output_arr:)
+      if k_choose == 0
+        output_arr << stack.reverse_copy_stack
+        return
+      end
+      
+      return if index >= arr.length
+      head = index
+      (head...arr.length).each do |iteration|
+        stack.push(arr[iteration])
+        prepare_combinations(arr, index: iteration + 1, k_choose: k_choose - 1, stack: stack, output_arr: output_arr)
+        stack.pop
+      end
+      output_arr
     end
     
     def swap(arr, i, j)
@@ -42,3 +69,9 @@ module Backtracking
     end
   end
 end
+
+# require '/Users/ravinayak/Documents/personal_projects/data_structures/backtracking/backtracking'
+# arr = [1, 2, 3, 4]
+# bt = Backtracking::PermutationsCombinations.new(arr)
+# bt.generate_combinations(arr, 3)
+# bt.generate_permutations(arr)

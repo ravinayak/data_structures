@@ -49,5 +49,17 @@ module Stack
       return true if self.curr == 0
       false
     end
+    
+    # Prints contents of stack
+    #
+    def print_stack
+      self.arr[0...self.curr].join(' ')
+    end
+    
+    # Copy contents of stack in reverse
+    #
+    def reverse_copy_stack
+      self.arr[0...self.curr].dup
+    end
   end
 end
