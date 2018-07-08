@@ -1,79 +1,91 @@
 # Used for namespacing
 #
 module Backtracking
-  # Class
+  # Class for Board
   #
-  class NQueens
+  class Board
     
-    attr_accessor :size
+    attr_accessor :cols, :left_diagonals, :right_diagonals, :size
     
     def initialize(size)
       @size = size
+      @board = Array.new(size) { Array.new(size, '.') }
+      @left_diagonals = []
+      @right_diagonals = []
+      @cols = []
     end
     
-    def generate_solutions(size)
-      dp = Array.new(size) { Array.new(size, []) }
+    def add_col(row, col)
+      @cols << col
+      @left_diagonals << (row + col)
+      @right_diagonals << (row - col)
+      @board[row][col] = '*'
+    end
+    
+    def remove_col(row, col)
+      @cols.delete(col)
+      @left_diagonals.delete(row + col)
+      @right_diagonals.delete(row - col)
+      @board[row][col] = '.'
+    end
+    
+    def is_valid_placement?(row, col)
+      !is_invalid_placement?(row, col)
+    end
+    
+    def is_invalid_placement?(row, col)
+      @cols.include?(col) || @left_diagonals.include?(row + col) || @right_diagonals.include?(row - col)
+    end
+    
+    def print_board
       (0...size).each do |i|
+        puts
         (0...size).each do |j|
-          prep_solutions(i: i, j: j, size: size, dp: dp)
+          print @board[i][j]
         end
       end
-      dp
+      3.times { puts }
+      nil
+    end
+  end
+  
+  # Class for NQueens
+  #
+  class NQueens
+    
+    attr_accessor :board
+    
+    def generate_solutions(size)
+      @board = Board.new(size)
+      solution_arr = []
+      dfs(row: 0, size: size, solution_arr: solution_arr, arr: [], index: 0)
+      puts "Solutions :: #{solution_arr.length}"
     end
     
     private
     
-    def prep_solutions(i: , j: , size: , dp: )
-      return dp[i][j] unless dp[i][j].empty?
-      return dp[i][j] if dp[i][j].length >= size
-      
-      dp[i][j].each do |x_y_coord|
-        return dp[i][j] if x_y_coord[0] == i || x_y_coord[1] == j
+    def dfs(row:, size:, solution_arr:, arr:, index:)
+      if row == size
+        puts @board.print_board
+        solution_arr << arr
+        return
       end
       
-      dp[i][j].each do |x_y_coord|
-        x = x_y_coord[0]
-        y = x_y_coord[1]
-        (1...size).each do |k|
-          x_less, y_less = (x - k), (y - k)
-          x_greater, y_greater = (x + k), (y + k)
-          if x_less >= 0 && x_less < size && y_less >= 0 && y_less < size
-            return dp[i][j] if i == x_less && j == y_less
-          end
-          if x_greater >= 0 && x_greater < size && y_greater >= 0 && y_greater < size
-            return dp[i][j] if i == y_greater && j == y_greater
-          end
+      (0...size).each do |col|
+        if @board.is_valid_placement?(row, col)
+          arr[index] = [row, col]
+          @board.add_col(row, col)
+          dfs(row: row + 1, size: size, solution_arr: solution_arr, arr: arr, index: index + 1)
+          @board.remove_col(row, col)
         end
-        
-        dp[i][j] << [i, j] unless  dp[i][j].include? [i, j]
-        return dp[i][j] if dp[i][j].length == size
-        
-        if (i + 1) >= 0 && (i + 1) < size && (j + 2) >= 0 && (j + 2) < size
-          dp[i+1][j+2] = prep_solutions(i: i + 1, j: j + 2 ,size: size, dp: dp)
-        end
-
-        if (i - 1) >= 0 && (i - 1) < size && (j + 2) >= 0 && (j + 2) < size
-          dp[i-1][j+2] = prep_solutions( i: i - 1, j: j + 2 ,size: size, dp: dp)
-        end
-
-        if (i + 1) >= 0 && (i + 1) < size && (j - 2) >= 0 && (j - 2) < size
-          dp[i+1][j-2] = prep_solutions(i: i + 1, j: j - 2 ,size: size, dp: dp)
-        end
-
-        if (i - 1) >= 0 && (i - 1) < size && (j - 2) >= 0 && (j - 2) < size
-          dp[i-1][j-2] = prep_solutions(i: i - 1, j: j - 2 ,size: size, dp: dp)
-        end
-        
-        x = dp[i+1][j+2]
-        [dp[i-1][j+2], dp[i+1][j-2], dp[i-1][j-2]].each { |dp_arr| x = dp_arr if x.length < dp_arr.length }
-        dp[i][j] << x
-        dp[i][j]
       end
     end
   end
 end
 
 # require '/Users/ravinayak/Documents/personal_projects/data_structures/backtracking/n_queens'
-# num = 4
-# bt = Backtracking::NQueens.new(num)
-# bt.generate_solutions(num)
+# n_queens = Backtracking::NQueens.new
+# n_queens.generate_solutions(8)
+
+
+
