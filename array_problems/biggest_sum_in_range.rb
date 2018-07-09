@@ -22,7 +22,7 @@ module ArrayProblems
         possible_num = possible_num + 9 * (10 ** i)
       end
       possible_greatest_num = possible_num + ((digits_arr[digits_arr.length - 1]) * (10 ** (digits_arr.length - 1)))
-      return if possible_greatest_num == input_num
+      return [possible_greatest_num, digits_arr.reduce(0) { |a, e| a + e } ] if possible_greatest_num == input_num
       
       current_greatest_num = possible_num + ((digits_arr[digits_arr.length - 1] - 1) * (10 ** (digits_arr.length - 1)))
       current_max_sum = (9 * (digits_arr.length - 1)) + (digits_arr[digits_arr.length - 1] - 1)
