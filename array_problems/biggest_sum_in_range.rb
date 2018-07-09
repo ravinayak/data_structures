@@ -16,11 +16,13 @@ module ArrayProblems
     
     def prep_biggest_num(input_num)
       return input_num if input_num <= 9
+      
       digits_arr = prepare_digits_for_num(input_num)
       possible_num = 0
       (0...(digits_arr.length - 1)).each do |i|
         possible_num = possible_num + 9 * (10 ** i)
       end
+      
       possible_greatest_num = possible_num + ((digits_arr[digits_arr.length - 1]) * (10 ** (digits_arr.length - 1)))
       return [possible_greatest_num, digits_arr.reduce(0) { |a, e| a + e } ] if possible_greatest_num == input_num
       
@@ -28,6 +30,7 @@ module ArrayProblems
       current_max_sum = (9 * (digits_arr.length - 1)) + (digits_arr[digits_arr.length - 1] - 1)
       start_next_num = next_num = (digits_arr[digits_arr.length - 1]) * (10 ** (digits_arr.length - 1))
       start_next_sum = next_sum = digits_arr[digits_arr.length - 1]
+      
       while next_num <= input_num
         (0...10).each do |i|
           next_num = start_next_num + i
