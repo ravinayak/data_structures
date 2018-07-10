@@ -5,8 +5,6 @@ module Backtracking
   #
   class GrayCode
     
-    attr_accessor :n
-    
     def initialize(n)
       @n = n
     end

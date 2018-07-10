@@ -2,9 +2,7 @@ require_relative '../stack/stack'
 
 module Backtracking
   class PermutationsCombinations
-  
-    attr_accessor :input
-  
+    
     def initialize(input = nil)
       @input = input
     end

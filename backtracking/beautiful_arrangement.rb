@@ -4,9 +4,7 @@ module Backtracking
   # Class
   #
   class BeautifulArrangement
-  
-    attr_accessor :count, :output_hash
-  
+    
     def initialize
       @count = 0
       @output_hash = []

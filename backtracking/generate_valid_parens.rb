@@ -8,8 +8,6 @@ module Backtracking
   #
   class GenerateValidParens
     
-    attr_accessor :num
-    
     def initialize(num)
       @num = num
     end

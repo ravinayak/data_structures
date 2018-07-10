@@ -5,8 +5,6 @@ module Backtracking
   #
   class Board
     
-    attr_accessor :cols, :left_diagonals, :right_diagonals, :size
-    
     def initialize(size)
       @size = size
       @board = Array.new(size) { Array.new(size, '.') }

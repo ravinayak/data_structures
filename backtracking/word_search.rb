@@ -5,8 +5,6 @@ module Backtracking
   #
   class WordSearch
     
-    attr_accessor :board
-    
     def initialize(grid)
       @grid = grid
     end

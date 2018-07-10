@@ -4,8 +4,6 @@ module Backtracking
   # Class
   #
   class Subsets
-  
-    attr_accessor :arr
     
     def initialize(arr: [])
       @arr = arr

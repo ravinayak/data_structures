@@ -8,8 +8,6 @@ module ArrayProblems
   class BiggestSumInRange
     include UtilityFunctions
     
-    attr_accessor :num
-    
     def initialize(num)
       @num = num
     end

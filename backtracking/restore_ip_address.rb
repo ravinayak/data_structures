@@ -10,8 +10,6 @@ module Backtracking
   #
   class RestoreIpAddress
     
-    attr_accessor :ip_str
-    
     def initialize(ip_str: nil)
       @ip_str = ip_str
     end
