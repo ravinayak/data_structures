@@ -3,7 +3,7 @@
 module RealInterviewProblems
   # Class
   #
-  class LendingHome
+  class LHome
     
     INTEGER_REGEX = /[1-9]/
     
@@ -59,15 +59,15 @@ module RealInterviewProblems
   end
 end
 
-# require '/Users/ravinayak/Documents/personal_projects/data_structures/real_interview_problems/lending_home'
-# lending_home = RealInterviewProblems::LendingHome.new
-# lending_home.next_server_num([1, 5, 4, 3])
-# lending_home.next_server_num([2, 3])
-# lending_home.next_server_num([3, 2, 1])
-# lending_home.next_server_num([5, 4, 2, 1])
-# lending_home.next_server_num([])
-# lending_home.allocate('apibox')
-# lending_home.allocate('apibox')
-# lending_home.deallocate('apibox1')
-# lending_home.allocate('sitebox')
-# lending_home.deallocate('sitebox1')
+# require '/Users/ravinayak/Documents/personal_projects/data_structures/real_interview_problems/lhome'
+# lhome = RealInterviewProblems::Lhome.new
+# lhome.next_server_num([1, 5, 4, 3])
+# lhome.next_server_num([2, 3])
+# lhome.next_server_num([3, 2, 1])
+# lhome.next_server_num([5, 4, 2, 1])
+# lhome.next_server_num([])
+# lhome.allocate('apibox')
+# lhome.allocate('apibox')
+# lhome.deallocate('apibox1')
+# lhome.allocate('sitebox')
+# lhome.deallocate('sitebox1')
