@@ -38,7 +38,6 @@ module RealInterviewProblems
     def prep_next_greatest_char(input_arr, search_char)
       return '' if input_arr.empty?
       index = binary_search(low: 0, high: input_arr.length - 1, input_arr: input_arr, search_char: search_char)
-      puts index
       return input_arr[0] if index >= (input_arr.length - 1) || index < 0
       (index...input_arr.length).each do |index_val|
         return input_arr[index_val] if input_arr[index_val] > search_char
