@@ -21,7 +21,20 @@ module DynamicProgramming
       min_path_sum_recursive(grid, )
     end
     
+    def count_ways(grid)
+      return 0 if grid[grid.length - 1][grid[0].length - 1] == 1
+      memo = Array.new(grid.length) { Array.new((grid[0].length - 1), 0) }
+      prep_count_ways(grid: grid, row: grid.length - 1, col: grid[0].length - 1, memo: memo)
+    end
+    
     private
+    
+    def prep_count_ways(grid:, row: , col: , memo: )
+      return memo[row][col] = 0 if grid[row][col] == 1 || ((row == 0) && (col == 0))
+      return memo[row][col] = 1 if row == 0 || col == 0
+      memo[row][col] = prep_count_ways(grid: grid, row: row - 1 , col: col, memo: memo) +
+        prep_count_ways(grid: grid, row: row, col: col - 1, memo: memo)
+    end
     
     def min_path_sum_recursive(grid)
       memoized_table = Array.new(grid.length) { Array.new(grid[0].length) }
@@ -86,3 +99,13 @@ end
 # ]
 # grid_path_sum = DynamicProgramming::GridPathProblem.new(grid)
 # grid_path_sum.min_path_sum(grid, false)
+#
+# require '/Users/ravinayak/Documents/personal_projects/data_structures/dynamic_programming/grid_path_problem'
+# grid = [
+#   [0, 0, 0, 0, 0],
+#   [0, 0, 0, 0, 0],
+#   [0, 0, 0, 0, 0],
+#   [0, 0, 0, 0, 0]
+# ]
+# grid_path_sum = DynamicProgramming::GridPathProblem.new(grid)
+# grid_path_sum.count_ways(grid)
